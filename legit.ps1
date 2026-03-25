@@ -1,4 +1,4 @@
-# Force UTF-8 output — fixes box-drawing character corruption on all Windows versions
+# Force UTF-8 output: fixes box-drawing character corruption on all Windows versions
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -7,9 +7,7 @@ $Host.UI.RawUI.BackgroundColor = "Black"
 $Host.UI.RawUI.ForegroundColor = "Gray"
 Clear-Host
 
-# ─────────────────────────────────────────────
-# IMAGE URLs — replace with your GitHub raw links
-# ─────────────────────────────────────────────
+# IMAGE URLs- GitHub raw links
 $skullImageUrl     = "https://raw.githubusercontent.com/gsubigya/web.github.io/refs/heads/main/virus/skull.png"
 $awarenessImageUrl = "https://raw.githubusercontent.com/gsubigya/web.github.io/6bfcf395d5083872214447740410cdb962cf820f/virus/awareness.png"
 
@@ -17,9 +15,7 @@ $desktop = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder
 $skullDest     = Join-Path $desktop "system_alert.png"
 $awarenessDest = Join-Path $desktop "security_tips.png"
 
-# ─────────────────────────────────────────────
 # HELPER FUNCTIONS
-# ─────────────────────────────────────────────
 function Fast-Type {
     param([string]$Text, [string]$Color = "White", [int]$Delay = 6)
     foreach ($char in $Text.ToCharArray()) {
@@ -40,9 +36,7 @@ function Fake-ProgressBar {
     Write-Host "COMPLETE" -ForegroundColor Green
 }
 
-# ─────────────────────────────────────────────
 # DOWNLOAD IMAGE (background, non-blocking)
-# ─────────────────────────────────────────────
 function Download-Image {
     param([string]$Url, [string]$Dest)
     $job = Start-Job -ScriptBlock {
@@ -52,11 +46,9 @@ function Download-Image {
     return $job
 }
 
-# ─────────────────────────────────────────────
-# FULLSCREEN IMAGE — SKULL VERSION
+# FULLSCREEN IMAGE, SKULL VERSION
 # ESC, clicks, keypresses ALL blocked.
 # Only the timer closes it after $seconds.
-# ─────────────────────────────────────────────
 function Show-SkullFullscreen {
     param([string]$ImagePath, [int]$Seconds = 20)
 
@@ -108,10 +100,8 @@ Add-Type -AssemblyName System.Drawing
         -WindowStyle Hidden
 }
 
-# ─────────────────────────────────────────────
-# FULLSCREEN IMAGE — AWARENESS CARD VERSION
+# FULLSCREEN IMAGE, AWARENESS CARD VERSION
 # Closes on any key or click (user reads at own pace)
-# ─────────────────────────────────────────────
 function Show-AwarenessFullscreen {
     param([string]$ImagePath)
 
@@ -147,9 +137,7 @@ Add-Type -AssemblyName System.Drawing
         -WindowStyle Hidden
 }
 
-# =============================================
-# PHASE 1 — SILENT ENTRY
-# =============================================
+# PHASE 1: SILENT ENTRY
 Clear-Host
 Write-Host ""
 Start-Sleep -Milliseconds 800
@@ -177,9 +165,7 @@ Start-Sleep -Milliseconds 400
 Wait-Job $skullJob -Timeout 8 | Out-Null
 Remove-Job $skullJob -Force
 
-# =============================================
-# PHASE 2 — RED BANNER + SKULL FIRES
-# =============================================
+# PHASE 2: RED BANNER + SKULL FIRES
 $Host.UI.RawUI.ForegroundColor = "Red"
 Clear-Host
 Write-Host ""
@@ -190,11 +176,11 @@ Write-Host "  ##                                                 ##" -Foreground
 Write-Host "  #####################################################" -ForegroundColor Red
 Write-Host ""
 
-# SKULL fires here — 15 seconds, all input blocked
+# SKULL fires here: 15 seconds, all input blocked
 Show-SkullFullscreen -ImagePath $skullDest -Seconds 15
 
 # Download awareness image IN BACKGROUND while skull is showing
-# By the time skull closes (15s), awareness image will be ready
+# By the time skull closes, awareness image will be ready
 $awarenessJob = Download-Image -Url $awarenessImageUrl -Dest $awarenessDest
 
 Start-Sleep -Milliseconds 400
@@ -202,7 +188,7 @@ Fast-Type "  This is what ran in the background. Silently." "DarkGray" 7
 Write-Host ""
 Start-Sleep -Milliseconds 300
 
-# ─── 6 CMD windows — attack chain ───────────────────────────────────
+# ─── 6 CMD windows — attack chain ────
 Start-Process "cmd.exe" -ArgumentList '/c title [STEP 1] PAYLOAD DELIVERY & color 04 & echo. & echo  [*] nc.exe downloaded from attacker IP 192.168.0.117 & echo  [*] Saved to Desktop as hidden file & echo  [*] File attribute: HIDDEN - invisible in Explorer & timeout /t 5 /nobreak > nul' -WindowStyle Normal
 Start-Sleep -Milliseconds 120
 Start-Process "cmd.exe" -ArgumentList '/c title [STEP 2] DECOY LAUNCHED & color 04 & echo. & echo  [*] Image file downloaded from attacker CDN & echo  [*] Opened visibly to distract the victim & echo  [*] Payload already running behind it & timeout /t 5 /nobreak > nul' -WindowStyle Normal
@@ -232,9 +218,8 @@ foreach ($s in $steps) {
 Write-Host ""
 Start-Sleep -Milliseconds 400
 
-# =============================================
-# PHASE 3 — ATTACK CHAIN TIMELINE
-# =============================================
+
+# PHASE 3: ATTACK CHAIN TIMELINE
 Write-Host "  ----------------------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 Fast-Type "  FULL ATTACK CHAIN - what just happened in order:" "Yellow" 7
@@ -260,9 +245,8 @@ for ($i = 0; $i -lt $chain.Length; $i++) {
 Write-Host ""
 Start-Sleep -Milliseconds 300
 
-# =============================================
-# PHASE 4 — PROGRESS BARS
-# =============================================
+
+# PHASE 4: PROGRESS BARS
 Write-Host "  ----------------------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 Fast-Type "  In a real attack, the next 60 seconds look like this:" "DarkYellow" 7
@@ -277,9 +261,8 @@ Write-Host "  ----------------------------------------------------" -ForegroundC
 Write-Host ""
 Start-Sleep -Milliseconds 300
 
-# =============================================
-# PHASE 5 — REVEAL
-# =============================================
+
+# PHASE 5: REVEAL
 Clear-Host
 $Host.UI.RawUI.ForegroundColor = "White"
 Start-Sleep -Milliseconds 300
@@ -311,9 +294,7 @@ Fast-Type "  You had zero seconds to review what you were running." "Red" 7
 Write-Host ""
 Start-Sleep -Milliseconds 400
 
-# =============================================
-# PHASE 6 — ATTACK VECTORS + TIPS
-# =============================================
+# PHASE 6: ATTACK VECTORS + TIPS
 Write-Host "  ----------------------------------------------------" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host "  REAL ATTACK VECTORS THAT USE THIS EXACT PATTERN:" -ForegroundColor Cyan
@@ -360,10 +341,9 @@ Fast-Type "  Share this. The person who needs it most won't think they do." "Cya
 Write-Host ""
 Start-Sleep -Milliseconds 1000
 
-# =============================================
-# FINAL — AWARENESS CARD
+# FINAL: AWARENESS CARD
 # Wait for background download to finish then show
-# =============================================
+
 Wait-Job $awarenessJob -Timeout 10 | Out-Null
 Remove-Job $awarenessJob -Force
 
