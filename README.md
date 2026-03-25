@@ -138,6 +138,6 @@ The psychological impact is part of the educational design. The reveal and tips 
 
 ## License
 
-MIT — free to use, share, and adapt for educational purposes.
+GPL-3.0 license free to use, share, and adapt for educational purposes.
 
 If you use this in a workshop or video, credit is appreciated but not required.
